@@ -398,11 +398,10 @@ def load_tf_weights(inputbase, config):
                 additional_dict[prefix + BQKV] = trt.Weights(Ball)
 
                 additional_dict[prefix + WQKV + "_notrans"] = trt.Weights(Wall.T)
-
+        weights_dict.update(additional_dict)
     except Exception as error:
         TRT_LOGGER.log(TRT_LOGGER.ERROR, str(error))
 
-    weights_dict.update(additional_dict)
     return weights_dict
 
 def emb_layernorm(builder, network, config, weights_dict, builder_config, sequence_length, batch_sizes):
