@@ -144,7 +144,7 @@ def attention_layer_opt(prefix, config, init_dict, network, input_tensor, imask)
     return qkv2ctx
 
 def skipln(prefix, config, init_dict, network, input_tensor, skip, bias=None):
-     """
+    """
     Add the skip layer
     """
     idims = input_tensor.shape
