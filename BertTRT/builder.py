@@ -11,7 +11,7 @@ import pycuda.autoinit
 
 import tensorrt as trt
 from helpers.calibrator import BertCalibrator
-from tensorflow.python.tools.inspect_checkpoint.py_checkpoint_reader import NewCheckpointReader
+from tensorflow.python.tools.inspect_checkpoint import py_checkpoint_reader
 
 TRT_LOGGER = trt.Logger(trt.Logger.INFO)
 
@@ -330,7 +330,7 @@ def load_tf_weights(inputbase, config):
     weights_dict = dict()
 
     try:
-        reader = NewCheckpointReader(inputbase)
+        reader = py_checkpoint_reader.NewCheckpointReader(inputbase)
         tensor_dict = reader.get_variable_to_shape_map()
 
         # There might be training-related variables in the checkpoint that can be discarded
