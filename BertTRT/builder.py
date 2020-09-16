@@ -11,7 +11,7 @@ import pycuda.autoinit
 
 import tensorrt as trt
 from helpers.calibrator import BertCalibrator
-from tensorflow.python import pywrap_tensorflow as pyTF
+from tensorflow.python.tools.inspect_checkpoint.py_checkpoint_reader import NewCheckpointReader
 
 TRT_LOGGER = trt.Logger(trt.Logger.INFO)
 
@@ -330,7 +330,7 @@ def load_tf_weights(inputbase, config):
     weights_dict = dict()
 
     try:
-        reader = pyTF.NewCheckpointReader(inputbase)
+        reader = NewCheckpointReader(inputbase)
         tensor_dict = reader.get_variable_to_shape_map()
 
         # There might be training-related variables in the checkpoint that can be discarded
@@ -545,7 +545,7 @@ def main():
                                config,weights_dict,squad_json_path,vocab_path,calib_cache,
                                args.calib_num)
 
-    with build_engine(args.batch_size,args.workspace_size,config,weights_dict,
+    with build_engine(args.batch_size,args.workspace_size,args.sequence_length,config,weights_dict,
                       squad_json_path,vocab_path,calib_cache,args.calib_num) as engine:
         TRT_LOGGER.log(TRT_LOGGER.VERBOSE, "Serializing Engine...")
         serialized_engine = engine.serialize()
